@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,6 +8,7 @@ from rest_framework import status
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from .serializers import GoogleLoginSerializer
+from django.shortcuts import redirect
 
 # 1. The API Logic (Handles the token from Google)
 class GoogleLoginView(APIView):
@@ -50,3 +52,11 @@ class GoogleLoginView(APIView):
 # 2. The View Logic (Shows the HTML page)
 def login_page(request):
     return render(request, 'users/login.html')
+
+@login_required
+def profile_view(request):
+    return render(request, 'users/profile.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')

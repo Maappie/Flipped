@@ -7,5 +7,15 @@
 </head>
 <body>
     <h1>This is the main web page</h1>
+
+    {% if  user.is_authenticated %}
+        <a href="{% url "profile" %}">
+            <button>Go to Profile</button>
+        </a>
+    {% else %}
+        <a href="{% url "login-page" %}">
+            <button>Login</button>
+        </a>
+    {% endif %}
 </body>
 </html>
