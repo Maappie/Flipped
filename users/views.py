@@ -9,9 +9,13 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from .serializers import GoogleLoginSerializer
 from django.shortcuts import redirect
+from rest_framework.permissions import AllowAny
 
 # 1. The API Logic (Handles the token from Google)
 class GoogleLoginView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+    
     def post(self, request):
         serializer = GoogleLoginSerializer(data=request.data)
         if not serializer.is_valid():
