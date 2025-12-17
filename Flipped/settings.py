@@ -38,8 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    # Third Party Libraries
+    'rest_framework',
+    'corsheaders',
+    
     #apps here
     'Main',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +126,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/api/login/'

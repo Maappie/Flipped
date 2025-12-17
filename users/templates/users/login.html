@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Flipped</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f2f5; }
+        .login-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        h1 { margin-bottom: 1.5rem; color: #333; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h1>Welcome to Flipped</h1>
+        
+        <div id="g_id_onload"
+             data-client_id="574793080132-1fmqv86mk37sblts0552sclnfb0psbde.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="sign_in_with"
+             data-shape="rectangular"
+             data-logo_alignment="left">
+        </div>
+    </div>
+
+    <script>
+        // 3. This function runs automatically when the user logs in
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+
+            // Send the token to your Django Backend
+            fetch('http://127.0.0.1:8000/api/auth/google/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    access_token: response.credential
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    // Login Success: Redirect to your dashboard or home
+                    window.location.href = "/"; 
+                } else {
+                    alert("Login failed! Check console.");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
