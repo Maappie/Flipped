@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-rc(!07rj&blp^0-=v@7dr+6y%ku7=650jfj6rr2v$4m8t_qdi7'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
