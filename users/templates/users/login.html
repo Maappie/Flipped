@@ -13,9 +13,41 @@
 </head>
 <body>
 
+    <div class="return">
+        <a href="{% url "main:Home Page" %}">
+            <button type="button">Return to Home Page</button>
+        </a>
+    </div>
+
     <div class="login-card">
         <h1>Welcome to Flipped</h1>
-        
+        <div class="container">
+            <form action="{% url "login-page" %}" method="post">
+
+                {% csrf_token %}
+
+                <div>
+                    <label for="email" >Email</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+
+                <div>
+                    <label for="password" >Password</label>
+                    <input type="text" name="password" id="password" required>
+                </div>
+
+                {% if error %}
+                    <p style="color: red;"> {{error}} </p>
+                {% endif %}
+                <button type="submit">Log in</button>
+            </form>
+
+            <a href="url">
+                <button type="button">Signup</button>
+            </a>
+
+
+        </div>
         <div id="g_id_onload"
              data-client_id="574793080132-1fmqv86mk37sblts0552sclnfb0psbde.apps.googleusercontent.com"
              data-callback="handleCredentialResponse"

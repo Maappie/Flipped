@@ -1,14 +1,13 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from .serializers import GoogleLoginSerializer
-from django.shortcuts import redirect
 from rest_framework.permissions import AllowAny
 
 # 1. The API Logic (Handles the token from Google)
@@ -55,6 +54,21 @@ class GoogleLoginView(APIView):
 
 # 2. The View Logic (Shows the HTML page)
 def login_page(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=email, password=password)
+        
+        if user is not None:
+            login(request, user)
+            return redirect('profile')
+        elif user is None:
+            return render(request, 'users/login.html', {'error': 'Account not Found'})
+        else:
+            return render(request, 'users/login.html', {'error' : 'Invalid Email or Password'})
+        
+            
     return render(request, 'users/login.html')
 
 @login_required
