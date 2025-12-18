@@ -1,3 +1,4 @@
+from django.contrib import messages 
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -63,12 +64,9 @@ def login_page(request):
         if user is not None:
             login(request, user)
             return redirect('profile')
-        elif user is None:
-            return render(request, 'users/login.html', {'error': 'Account not Found'})
         else:
-            return render(request, 'users/login.html', {'error' : 'Invalid Email or Password'})
-        
-            
+            messages.error(request, 'Invalid e-mail or password.')
+            return redirect('login-page')  
     return render(request, 'users/login.html')
 
 @login_required
